@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DashBoardFormController">
+   <children>
+      <Label prefHeight="606.0" prefWidth="193.0" style="-fx-background-color: #090040;" />
+      <Label layoutX="32.0" layoutY="30.0" text="Clothify Store" textAlignment="CENTER" textFill="#eeeeee">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <JFXButton layoutX="32.0" layoutY="113.0" onAction="#btnDashboardOnAction" prefHeight="31.0" prefWidth="130.0" text="Dashboard" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+         <effect>
+            <Glow level="0.57" />
+         </effect>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" layoutX="32.0" layoutY="175.0" onAction="#btnCustomersOnAction" prefHeight="31.0" prefWidth="130.0" text="Cusomers" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" layoutX="32.0" layoutY="233.0" onAction="#btnOrdersOnAction" prefHeight="31.0" prefWidth="130.0" text="Oders" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" layoutX="32.0" layoutY="296.0" onAction="#btnProductsOnAction" prefHeight="31.0" prefWidth="130.0" text="Products" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" layoutX="32.0" layoutY="355.0" onAction="#btnNewProductsOnAction" prefHeight="31.0" prefWidth="130.0" text="New Products" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" layoutX="32.0" layoutY="413.0" onAction="#btnSuppliersOnAction" prefHeight="31.0" prefWidth="130.0" text="Suppliers" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" layoutX="32.0" layoutY="544.0" onAction="#btnLogoutOnAction" prefHeight="31.0" prefWidth="130.0" style="-fx-background-color: Red;" text="Logout" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </JFXButton>
+      <Label layoutX="230.0" layoutY="25.0" text="Dashboard">
+         <font>
+            <Font name="System Bold" size="28.0" />
+         </font>
+      </Label>
+      <Label layoutX="231.0" layoutY="122.0" prefHeight="152.0" prefWidth="275.0" style="-fx-background-color: E9E9E9;" />
+      <Label layoutX="575.0" layoutY="124.0" prefHeight="152.0" prefWidth="275.0" style="-fx-background-color: E9E9E9;" />
+      <Label layoutX="240.0" layoutY="146.0" text="Total Sales">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="txtTotalSales" layoutX="240.0" layoutY="215.0" prefHeight="38.0" prefWidth="143.0" text="0">
+         <font>
+            <Font name="System Bold" size="26.0" />
+         </font>
+      </Label>
+      <Label layoutX="586.0" layoutY="146.0" text="Total Orders">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="txtTotalOrders" layoutX="586.0" layoutY="215.0" prefHeight="38.0" prefWidth="143.0" text="0">
+         <font>
+            <Font name="System Bold" size="26.0" />
+         </font>
+      </Label>
+      <Label layoutX="231.0" layoutY="314.0" text="Products">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TableView fx:id="tblProducts" layoutX="230.0" layoutY="360.0" prefHeight="200.0" prefWidth="649.0">
+        <columns>
+          <TableColumn fx:id="colId" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="colName" prefWidth="193.0" text="Name" />
+            <TableColumn fx:id="colSize" prefWidth="114.0" text="Size" />
+            <TableColumn fx:id="colQTY" prefWidth="122.0" text="QTY" />
+            <TableColumn fx:id="colPrice" prefWidth="143.0" text="Price" />
+        </columns>
+      </TableView>
+      <Label layoutX="658.0" layoutY="35.0" text="Welcome">
+         <font>
+            <Font name="System Bold Italic" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="txtUsername" layoutX="758.0" layoutY="37.0" prefHeight="17.0" prefWidth="117.0" style="-fx-background-color: E9E9E9;" text="shean">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <Label fx:id="txtDate" alignment="CENTER" layoutX="703.0" layoutY="73.0" prefHeight="21.0" prefWidth="171.0" style="-fx-background-color: E9E9E9;" text="Date">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
