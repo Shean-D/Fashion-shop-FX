@@ -6,47 +6,71 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class DashBoardFormController {
+public class OrderFormController {
 
+    @FXML
+    private ComboBox<?> cmbCustomerID;
+
+    @FXML
+    private ComboBox<?> cmbItemCode;
+
+    @FXML
+    private TableColumn<?, ?> colDescription;
 
     @FXML
     private TableColumn<?, ?> colId;
 
     @FXML
-    private TableColumn<?, ?> colName;
-
-    @FXML
-    private TableColumn<?, ?> colPrice;
-
-    @FXML
     private TableColumn<?, ?> colQTY;
 
     @FXML
-    private TableColumn<?, ?> colSize;
+    private TableColumn<?, ?> colTotal;
 
     @FXML
-    private TableView<?> tblProducts;
+    private TableColumn<?, ?> colUnitPrice;
+
+    @FXML
+    private TableView<?> tblOrder;
+
+    @FXML
+    private TextField txtCustomerName;
 
     @FXML
     private Label txtDate;
 
     @FXML
-    private Label txtTotalOrders;
+    private TextField txtItemName;
 
     @FXML
-    private Label txtTotalSales;
+    private Label txtOrderId;
+
+    @FXML
+    private TextField txtQTY;
+
+    @FXML
+    private TextField txtQTYOnHand;
+
+    @FXML
+    private TextField txtUnitPrice;
 
     @FXML
     private Label txtUsername;
 
     Parent root = null;
+
+    @FXML
+    void btnAddOnAction(ActionEvent event) {
+
+    }
 
     @FXML
     void btnCustomersOnAction(ActionEvent event){
@@ -91,7 +115,7 @@ public class DashBoardFormController {
     }
 
     @FXML
-    void btnNewProductsOnAction(ActionEvent event){
+    void btnNewProductsOnAction(ActionEvent event) {
 
         try {
             root = FXMLLoader.load(getClass().getResource("/view/New_product_form.fxml"));
@@ -105,21 +129,17 @@ public class DashBoardFormController {
     }
 
     @FXML
-    void btnOrdersOnAction(ActionEvent event){
+    void btnOrdersOnAction(ActionEvent event) {
 
-        try {
-            root = FXMLLoader.load(getClass().getResource("/view/Order_form.fxml"));
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
     }
 
     @FXML
-    void btnProductsOnAction(ActionEvent event){
+    void btnPlaceOrderOnAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    void btnProductsOnAction(ActionEvent event) {
 
         try {
             root = FXMLLoader.load(getClass().getResource("/view/Products_form.fxml"));
@@ -130,6 +150,11 @@ public class DashBoardFormController {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    @FXML
+    void btnRemoveOnAction(ActionEvent event) {
+
     }
 
     @FXML

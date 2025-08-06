@@ -6,45 +6,57 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class DashBoardFormController {
-
-
-    @FXML
-    private TableColumn<?, ?> colId;
+public class NewProductFormController {
 
     @FXML
-    private TableColumn<?, ?> colName;
+    private ComboBox<?> cmbProductCategory;
 
     @FXML
-    private TableColumn<?, ?> colPrice;
-
-    @FXML
-    private TableColumn<?, ?> colQTY;
-
-    @FXML
-    private TableColumn<?, ?> colSize;
-
-    @FXML
-    private TableView<?> tblProducts;
+    private ComboBox<?> cmbProductId;
 
     @FXML
     private Label txtDate;
 
     @FXML
-    private Label txtTotalOrders;
+    private TextField txtProductCategory;
 
     @FXML
-    private Label txtTotalSales;
+    private TextField txtProductId;
+
+    @FXML
+    private TextField txtProductName;
+
+    @FXML
+    private TextField txtProductQty;
+
+    @FXML
+    private TextField txtQTY;
+
+    @FXML
+    private TextField txtQTYOnHand;
+
+    @FXML
+    private TextField txtSupplier;
 
     @FXML
     private Label txtUsername;
+
+    @FXML
+    void btnAddOnAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    void btnAddProductOnAction(ActionEvent event){
+
+    }
 
     Parent root = null;
 
@@ -130,6 +142,11 @@ public class DashBoardFormController {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    @FXML
+    void btnRemoveOnAction(ActionEvent event) {
+
     }
 
     @FXML

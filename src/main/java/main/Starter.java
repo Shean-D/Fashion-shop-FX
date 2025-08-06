@@ -15,7 +15,7 @@ public class Starter extends Application {
     public void start(Stage stage) throws Exception {
 
         stage.setTitle("Login page");
-        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/Customer_form.fxml"))));
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/login_form.fxml"))));
         stage.show();
     }
 }
