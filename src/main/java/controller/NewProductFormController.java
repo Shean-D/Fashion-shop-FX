@@ -3,6 +3,7 @@ package controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -10,16 +11,19 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import util.DateTime;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class NewProductFormController {
+public class NewProductFormController implements Initializable {
 
     @FXML
-    private ComboBox<?> cmbProductCategory;
+    private ComboBox cmbProductCategory;
 
     @FXML
-    private ComboBox<?> cmbProductId;
+    private ComboBox cmbProductId;
 
     @FXML
     private Label txtDate;
@@ -59,6 +63,11 @@ public class NewProductFormController {
     }
 
     Parent root = null;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        DateTime.loadDateAndTime(txtDate);
+    }
 
     @FXML
     void btnCustomersOnAction(ActionEvent event){

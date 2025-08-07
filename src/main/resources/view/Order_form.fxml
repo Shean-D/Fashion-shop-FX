@@ -152,5 +152,11 @@
          </font>
       </Label>
       <TextField fx:id="txtQTY" layoutX="670.0" layoutY="275.0" promptText="QTY Need to buy" />
+      <Label layoutX="232.0" layoutY="556.0" text="Total Price :">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtTotalPrice" editable="false" layoutX="336.0" layoutY="554.0" promptText="Total price" />
     </children>
 </AnchorPane>

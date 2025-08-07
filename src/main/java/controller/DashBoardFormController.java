@@ -3,6 +3,7 @@ package controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -10,29 +11,33 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
+import util.DateTime;
 
 import java.io.IOException;
+import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ResourceBundle;
 
-public class DashBoardFormController {
-
-
-    @FXML
-    private TableColumn<?, ?> colId;
-
-    @FXML
-    private TableColumn<?, ?> colName;
+public class DashBoardFormController implements Initializable {
 
     @FXML
-    private TableColumn<?, ?> colPrice;
+    private TableColumn colId;
 
     @FXML
-    private TableColumn<?, ?> colQTY;
+    private TableColumn colName;
 
     @FXML
-    private TableColumn<?, ?> colSize;
+    private TableColumn colPrice;
 
     @FXML
-    private TableView<?> tblProducts;
+    private TableColumn colQTY;
+
+    @FXML
+    private TableColumn colSize;
+
+    @FXML
+    private TableView tblProducts;
 
     @FXML
     private Label txtDate;
@@ -45,6 +50,11 @@ public class DashBoardFormController {
 
     @FXML
     private Label txtUsername;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        DateTime.loadDateAndTime(txtDate);
+    }
 
     Parent root = null;
 
@@ -145,5 +155,7 @@ public class DashBoardFormController {
             System.out.println(e.getMessage());
         }
     }
+
+
 
 }
