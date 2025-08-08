@@ -9,10 +9,9 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class EmployeeDTO {
+public class UserLogin {
     private Integer id;
-    private String name;
-    private String address;
-    private String phone;
-    private String role;    //Employee or admin
+    private String username;    //first name
+    private String password;
+    private String role;
 }

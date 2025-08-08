@@ -11,6 +11,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
+import model.dto.UserLogin;
+import util.CurrentUser;
 import util.DateTime;
 
 import java.io.IOException;
@@ -54,9 +56,11 @@ public class DashBoardFormController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         DateTime.loadDateAndTime(txtDate);
+        txtUsername.setText(CurrentUser.getCurrentUserName());
     }
 
     Parent root = null;
+
 
     @FXML
     void btnCustomersOnAction(ActionEvent event){

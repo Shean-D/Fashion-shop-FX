@@ -1,6 +1,7 @@
 package service.custom.impl;
 
 import db.DBConnection;
+import model.dto.OrderItemDTO;
 import model.dto.ProductDTO;
 import service.custom.ProductService;
 import util.Crudutil;
@@ -72,5 +73,25 @@ public class ProductServiceImpl implements ProductService {
         });
 
         return productIDs;
+    }
+
+    public Boolean updateStock(List<OrderItemDTO> itemList) throws SQLException {
+
+        for (OrderItemDTO item : itemList) {
+            Boolean isUpdate = updateStock(item);
+
+            if (!isUpdate){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public Boolean updateStock(OrderItemDTO item) throws SQLException {
+
+        String sql = "UPDATE product SET qty_on_hand = qty_on_hand - ? WHERE products_id = ?";
+
+        return Crudutil.execute(sql, item.getQty(), item.getProductId());
+
     }
 }

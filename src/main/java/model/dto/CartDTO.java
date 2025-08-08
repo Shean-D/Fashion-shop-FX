@@ -3,17 +3,15 @@ package model.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
-public class OrderItemDTO {
-    private Long orderID;
-    private Integer productId;
-    private String productName;
+public class CartDTO {
+
+    private String id;
+    private String description;
     private Integer qty;
-    private Double unitPrice;
+    private Double unitprice;
     private Double total;
 }

@@ -22,6 +22,7 @@ public class ServiceFactory {
             case SUPPLIER: return (T) new SupplierServiceImpl();
             case EMPLOYEE: return (T) new EmployeeServiceImpl();
             case CATEGORY: return (T) new CategoryServiceImpl();
+            case USERS: return (T) new UserLoginServiceImpl();
 
         }
         return null;

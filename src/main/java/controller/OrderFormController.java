@@ -8,23 +8,26 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import model.dto.CustomerDTO;
-import model.dto.ProductDTO;
+import model.dto.*;
 import service.ServiceFactory;
 import service.custom.CustomerService;
+import service.custom.OrderService;
 import service.custom.ProductService;
+import util.CurrentUser;
 import util.DateTime;
 import util.ServiceType;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -81,9 +84,13 @@ public class OrderFormController implements Initializable {
 
     Parent root = null;
 
+    List<CartDTO> cart = new ArrayList<>();
+
     private CustomerService customerService = ServiceFactory.getInstance().getServiceType(ServiceType.CUSTOMER);
 
     private ProductService productService = ServiceFactory.getInstance().getServiceType(ServiceType.PRODUCT);
+
+    private OrderService orderService = ServiceFactory.getInstance().getServiceType(ServiceType.ORDER);
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -91,6 +98,7 @@ public class OrderFormController implements Initializable {
 
         loadCustomerIDs();
         loadProductIDs();
+        setOrderID();
 
         cmbCustomerID.getSelectionModel().selectedItemProperty().addListener((observableValue, oldVal, newVal) -> {
             setValuesToCustomerFields((String) newVal);
@@ -99,6 +107,12 @@ public class OrderFormController implements Initializable {
         cmbItemCode.getSelectionModel().selectedItemProperty().addListener((observableValue, oldVal, newVal) -> {
             setValuesToProductFields((String) newVal);
         });
+
+        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colDescription.setCellValueFactory(new PropertyValueFactory<>("Description"));
+        colQTY.setCellValueFactory(new PropertyValueFactory<>("qty"));
+        colUnitPrice.setCellValueFactory(new PropertyValueFactory<>("unitprice"));
+        colTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
 
     }
 
@@ -147,8 +161,69 @@ public class OrderFormController implements Initializable {
         }
     }
 
+    private void clearCustomFields(){
+
+        txtItemName.clear();
+        txtUnitPrice.clear();
+        txtQTYOnHand.clear();
+        txtQTY.clear();
+    }
+
+    private void calNetTotal(){
+        Double netTtotal = 0.0;
+
+        for (CartDTO item : cart){
+            netTtotal+=item.getTotal();
+        }
+        txtTotalPrice.setText(String.valueOf(netTtotal));
+    }
+
+    private void setOrderID(){
+        try {
+            int lastID = orderService.getOrderId();
+            int newID = lastID + 1;
+            txtOrderId.setText(String.valueOf(newID));
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     @FXML
     void btnAddOnAction(ActionEvent event) {
+        String qtyText = txtQTY.getText();
+
+        // Check for empty or invalid input
+        if (qtyText == null || qtyText.isEmpty()) {
+            new Alert(Alert.AlertType.ERROR, "Quantity is required").show();
+            return;
+        }
+
+        try {
+            int qty = Integer.parseInt(qtyText);
+
+            if (qty > 0) {
+                String itemCode = (String) cmbItemCode.getValue();
+                String name = txtItemName.getText();
+                double unitPrice = Double.parseDouble(txtUnitPrice.getText());
+                double total = qty * unitPrice;
+
+                cart.add(new CartDTO(itemCode, name, qty, unitPrice, total));
+                tblOrder.setItems(FXCollections.observableArrayList(cart));
+
+                calNetTotal();
+                clearCustomFields();
+
+
+            } else {
+                new Alert(Alert.AlertType.ERROR, "Quantity must be 0 or greater").show();
+                txtQTY.clear();
+            }
+        } catch (NumberFormatException e) {
+            new Alert(Alert.AlertType.ERROR, "Please enter a valid number for quantity").show();
+        }
+
+
 
     }
 
@@ -214,7 +289,47 @@ public class OrderFormController implements Initializable {
     }
 
     @FXML
-    void btnPlaceOrderOnAction(ActionEvent event) {
+    void btnPlaceOrderOnAction(ActionEvent event){
+
+        Long orderID = Long.valueOf(txtOrderId.getText());
+        String customerID = null;
+        try {
+            customerID = cmbCustomerID.getValue().toString();
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR,"Please select Customer ID").show();
+        }
+        String employeeID = String.valueOf(CurrentUser.getCurrentUser().getId());
+        String employeeName = CurrentUser.getCurrentUserName();
+        String date = txtDate.getText();
+        Double total = Double.valueOf(txtTotalPrice.getText());
+
+        List<OrderItemDTO> orderDetails = new ArrayList<>();
+
+        cart.forEach(cartItem -> {
+            orderDetails.add(new OrderItemDTO(
+                    orderID,
+                    Integer.parseInt(cartItem.getId()),
+                    cartItem.getDescription(),
+                    cartItem.getQty(),
+                    cartItem.getUnitprice(),
+                    cartItem.getTotal()));
+        });
+
+       OrderDTO order = new OrderDTO(orderID,customerID,employeeID,employeeName,total,date,orderDetails);
+        try {
+            orderService.addOrder(order);
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+
+        setOrderID();
+       clearCustomFields();
+       txtCustomerName.clear();
+       cart.clear();
+       tblOrder.setItems(FXCollections.observableArrayList(cart));
+
 
     }
 
