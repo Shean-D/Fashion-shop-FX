@@ -98,7 +98,7 @@ public class OrderFormController implements Initializable {
 
         loadCustomerIDs();
         loadProductIDs();
-        setOrderID();
+        //setOrderID();
 
         cmbCustomerID.getSelectionModel().selectedItemProperty().addListener((observableValue, oldVal, newVal) -> {
             setValuesToCustomerFields((String) newVal);
@@ -180,11 +180,12 @@ public class OrderFormController implements Initializable {
 
     private void setOrderID(){
         try {
-            int lastID = orderService.getOrderId();
-            int newID = lastID + 1;
+            Integer lastID = orderService.getOrderId();
+            Integer newID = lastID + 1;
             txtOrderId.setText(String.valueOf(newID));
 
         } catch (SQLException e) {
+
             System.out.println(e.getMessage());
         }
     }
@@ -291,7 +292,7 @@ public class OrderFormController implements Initializable {
     @FXML
     void btnPlaceOrderOnAction(ActionEvent event){
 
-        Long orderID = Long.valueOf(txtOrderId.getText());
+        Integer orderID = 0;
         String customerID = null;
         try {
             customerID = cmbCustomerID.getValue().toString();
@@ -317,7 +318,12 @@ public class OrderFormController implements Initializable {
 
        OrderDTO order = new OrderDTO(orderID,customerID,employeeID,employeeName,total,date,orderDetails);
         try {
-            orderService.addOrder(order);
+            Boolean added = orderService.addOrder(order);
+            if (added){
+                new Alert(Alert.AlertType.INFORMATION,"Order added successfully").show();
+            }else {
+                new Alert(Alert.AlertType.ERROR,"Operation failed").show();
+            }
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());

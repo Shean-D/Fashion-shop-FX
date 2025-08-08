@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 public class OrderDTO {
-    private Long orderID;
+    private Integer orderID;
     private String customerID;
     private String employeeID;
     private String employeeName;

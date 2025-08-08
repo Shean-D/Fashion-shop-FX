@@ -23,7 +23,7 @@ public class OrderDetailServiceImpl {
     public Boolean addOrderDetails(OrderItemDTO item) throws SQLException {
 
        return Crudutil.execute("INSERT INTO order_items (order_id, product_id, quantity, unit_price, total) VALUES (?, ?, ?, ?, ?)",
-                item.getOrderID(),
+                item.getOrderId(),
                 item.getProductId(),
                 item.getQty(),
                 item.getUnitPrice(),

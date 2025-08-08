@@ -10,10 +10,11 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class OrderItemDTO {
-    private Long orderID;
+    private Integer orderId;
     private Integer productId;
     private String productName;
     private Integer qty;
     private Double unitPrice;
     private Double total;
+
 }
