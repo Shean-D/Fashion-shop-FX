@@ -91,7 +91,7 @@ public class ProductServiceImpl implements ProductService {
 
         String sql = "UPDATE product SET qty_on_hand = qty_on_hand - ? WHERE products_id = ?";
 
-        return Crudutil.execute(sql, item.getQty(), item.getProductId());
+        return Crudutil.execute(sql, item.getQty(), item.getProduct_ID());
 
     }
 }

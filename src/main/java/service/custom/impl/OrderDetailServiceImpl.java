@@ -24,7 +24,7 @@ public class OrderDetailServiceImpl {
 
        return Crudutil.execute("INSERT INTO order_items (order_id, product_id, quantity, unit_price, total) VALUES (?, ?, ?, ?, ?)",
                 item.getOrderId(),
-                item.getProductId(),
+                item.getProduct_ID(),
                 item.getQty(),
                 item.getUnitPrice(),
                 item.getTotal());

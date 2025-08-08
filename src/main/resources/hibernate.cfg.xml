@@ -22,6 +22,12 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
         <!-- options: validate | update | create | create-drop -->
 
+        <mapping class="model.entity.OrderEntity"/>
+        <mapping class="model.entity.OrderItemEntity"/>
+        <mapping class="model.entity.ProductEntity"/>
+
+
+
 
     </session-factory>
 </hibernate-configuration>

@@ -28,47 +28,31 @@ public class OrderRepositoryImpl implements OrderRepository {
 
     @Override
     public Boolean addOrder(OrderEntity order) {
-        Transaction tx = null;
 
-        try (Session session = HibernateUtil.getSession()) {
+        Session session = HibernateUtil.getSession();
 
-            order.setOrderID(null);
-            tx = session.beginTransaction();
+        try {
+            session.beginTransaction();
 
-            for (OrderItemEntity item : order.getItemList()) {
-                item.setOrder(order);
+            session.save(order);
 
-                // Load product (managed in this session)
-                ProductEntity product = session.get(ProductEntity.class, item.getProduct().getProductsId());
-                if (product == null) {
-                    throw new IllegalArgumentException("Product not found: " + item.getProduct().getProductsId());
-                }
+            new ProductRepositoryImpl().updateStock(session,order.getItemList());
 
-                // Stock check
-                if (product.getQtyOnHand() < item.getQuantity()) {
-                    throw new IllegalArgumentException("Not enough stock for product: " + product.getProductName());
-                }
+            new OrderDetailsRepositoryImpl().addOrderDetails(session,order.getItemList());
 
-                // Update stock (no merge needed)
-                product.setQtyOnHand(product.getQtyOnHand() - item.getQuantity());
+            session.getTransaction().commit();
+            return true;
 
-                // Attach managed product to order item
-                item.setProduct(product);
-            }
-
-            // Persist order and items
-            session.persist(order);
-
-            tx.commit();
         } catch (Exception e) {
-            if (tx != null) tx.rollback();
+            session.getTransaction().rollback();
             e.printStackTrace();
             return false;
+
+        } finally {
+            session.close();
         }
-        return true;
+
     }
-
-
 
     @Override
     public Boolean updateOrder(OrderEntity order) {
@@ -94,7 +78,6 @@ public class OrderRepositoryImpl implements OrderRepository {
     public Double getOrderTotal() {
         return 0.0;
     }
-
 
     @Override
     public Integer getOrderId() {

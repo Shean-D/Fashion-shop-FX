@@ -10,7 +10,6 @@ import repository.custom.OrderRepository;
 import service.custom.OrderService;
 import util.Crudutil;
 import util.DaoType;
-import util.ModelMapperUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -43,13 +42,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Boolean addOrder(OrderDTO order) throws SQLException {
-        Boolean isOrderAdded = repository.addOrder(
-                ModelMapperUtil.getModelMapper().map(order, OrderEntity.class)
-        );
-        return isOrderAdded;
-    }
 
-
+            OrderEntity orderEntity = modelMapper.map(order, OrderEntity.class);
+            return repository.addOrder(orderEntity);
+        }
 
     @Override
     public Boolean updateOrder(OrderDTO order) {
@@ -73,8 +69,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Integer getOrderId() throws SQLException {
-
-        return repository.getOrderId();
-
+        return 0;
     }
+
 }
+

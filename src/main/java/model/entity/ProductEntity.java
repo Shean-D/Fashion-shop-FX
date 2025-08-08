@@ -21,7 +21,7 @@ public class ProductEntity {
     @Column(name = "size", length = 10)
     private String size;
 
-    @Column(name = "price", precision = 10, scale = 2)
+    @Column(name = "price")
     private Double price;
 
     @Column(name = "qty_on_hand")
