@@ -1,6 +1,8 @@
 package service.custom.impl;
 
 import model.dto.CustomerDTO;
+import model.entity.CustomerEntity;
+import org.modelmapper.ModelMapper;
 import repository.DaoFactory;
 import repository.custom.CustomerRepository;
 import service.custom.CustomerService;
@@ -15,28 +17,25 @@ import java.util.List;
 public class CustomerServiceImpl implements CustomerService {
 
     CustomerRepository customerRepository = DaoFactory.getInstance().getDaoType(DaoType.CUSTOMER);
+    ModelMapper modelMapper = new ModelMapper();
 
     @Override
     public List<CustomerDTO> getAllCustomers() throws SQLException {
 
-        ResultSet resultSet = Crudutil.execute("select * from customer");
-        ArrayList<CustomerDTO> customers = new ArrayList<>();
-        while (resultSet.next()) {
-            customers.add(new CustomerDTO(
-               resultSet.getInt("id"),
-               resultSet.getString("name"),
-               resultSet.getString("address"),
-               resultSet.getString("contact"),
-               resultSet.getString("email")
-            ));
+        List<CustomerEntity> allCustomers = customerRepository.getAllCustomers();
+        List<CustomerDTO> customers = new ArrayList<>();
+
+        for (CustomerEntity customer : allCustomers) {
+            customers.add(modelMapper.map(customer, CustomerDTO.class));
         }
+
         return customers;
 
     }
 
     @Override
     public Boolean addCustomer(CustomerDTO customer) {
-        return customerRepository.save(customer);
+        return customerRepository.save(modelMapper.map(customer, CustomerEntity.class));
     }
 
     @Override
@@ -46,17 +45,11 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDTO findCustomerById(Integer id) throws SQLException {
-        ResultSet resultSet = Crudutil.execute("select * from customer where id=?",id);
-        if(resultSet.next()){
-            return new CustomerDTO(
-                    resultSet.getInt("id"),
-                    resultSet.getString("name"),
-                    resultSet.getString("address"),
-                    resultSet.getString("contact"),
-                    resultSet.getString("email")
-            );
-        }
-        return null;
+
+        CustomerEntity entity = customerRepository.getCustomerByid(id);
+        return modelMapper.map(entity, CustomerDTO.class);
+
+
     }
 
     @Override
@@ -66,11 +59,18 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<String> getAllCustomerIDs() throws SQLException {
-        List<CustomerDTO> all = getAllCustomers();
-        ArrayList<String> customerIDList = new ArrayList<>();
-        all.forEach(customer -> {
-            customerIDList.add(String.valueOf(customer.getCustomerID()));
-        });
-        return customerIDList;
+
+        List<CustomerEntity> allCustomers = customerRepository.getAllCustomers();
+        List<CustomerDTO> customers = new ArrayList<>();
+        for (CustomerEntity customer : allCustomers) {
+            customers.add(modelMapper.map(customer, CustomerDTO.class));
+        }
+
+        List<String> customerIDs = new ArrayList<>();
+        for (CustomerDTO customer : customers) {
+            customerIDs.add(String.valueOf(customer.getCustomerID()));
+        }
+        return customerIDs;
+
     }
 }

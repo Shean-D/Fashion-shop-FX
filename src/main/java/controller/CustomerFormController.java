@@ -72,10 +72,20 @@ public class CustomerFormController implements Initializable {
     @FXML
     void btnAddOnAction(ActionEvent event) {
 
-        if (txtId.getText() != null){
-            new Alert(Alert.AlertType.ERROR,"Customer already exists!").show();
+        Boolean added = customerService.addCustomer(new CustomerDTO(
+                0,
+                txtName.getText(),
+                txtAddress.getText(),
+                txtContactNumber.getText(),
+                txtEmail.getText()
+        ));
+        if (added) {
+            new Alert(Alert.AlertType.INFORMATION,"Customer Added Successfully").show();
+            clearFields();
+        }else {
+            new Alert(Alert.AlertType.ERROR,"Operation failed").show();
         }
-        clearFields();
+
     }
 
     @FXML
